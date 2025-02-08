@@ -7,4 +7,7 @@ Jenkins
 RunDeck  
 Docker    
 
-To run the app execute: docker run --name "name of container" abhishekacharya/calculator_demo:latest
+To run the app execute: 
+1- build image : docker build -t calculator(a name for the image) .
+2- exécuter ton conteneur en mode interactif : docker run -it --rm --name Calculator(a name to container) calculator(the name of the image)
+3- have fun
