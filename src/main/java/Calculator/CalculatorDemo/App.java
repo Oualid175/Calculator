@@ -7,6 +7,7 @@ import java.util.Scanner;
 public class App {
     private int a, b;
 
+    // Méthode pour récupérer les nombres de l'utilisateur
     void input(Scanner sc) {
         while (true) {
             try {
@@ -24,7 +25,7 @@ public class App {
                 }
                 this.b = sc.nextInt();
                 sc.nextLine(); // Éviter tout problème avec `nextLine()`
-                break;  
+                break;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter integers only.");
                 sc.nextLine(); // Vider le buffer
@@ -32,6 +33,7 @@ public class App {
         }
     }
 
+    // Opérations mathématiques
     int add(int a, int b) {
         return a + b;
     }
@@ -51,7 +53,52 @@ public class App {
         return (float) a / b;
     }
 
+    // Méthode pour exécuter une opération
+    void executeOperation(int choice, int a, int b) {
+        switch (choice) {
+            case 1:
+                System.out.println("Result = " + add(a, b));
+                break;
+            case 2:
+                System.out.println("Result = " + sub(a, b));
+                break;
+            case 3:
+                System.out.println("Result = " + mul(a, b));
+                break;
+            case 4:
+                if (b == 0) {
+                    System.out.println("Divide by Zero is not allowed.");
+                } else {
+                    System.out.println("Result = " + div(a, b));
+                }
+                break;
+            default:
+                System.out.println("Invalid choice! Please select a valid option.");
+        }
+    }
+
     public static void main(String[] args) {
+        App app = new App();
+
+        // Mode Arguments en ligne de commande
+        if (args.length == 3) {
+            try {
+                int choice = Integer.parseInt(args[0]);
+                int a = Integer.parseInt(args[1]);
+                int b = Integer.parseInt(args[2]);
+
+                if (choice < 1 || choice > 4) {
+                    System.out.println("Invalid operation! Choose between 1 and 4.");
+                    return;
+                }
+                app.executeOperation(choice, a, b);
+                return;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please provide numbers.");
+                return;
+            }
+        }
+        // Mode interactif ou fichier input.txt
         Scanner sc = new Scanner(System.in);
         boolean exit = false;
 
@@ -72,37 +119,15 @@ public class App {
                 int choice = sc.nextInt();
                 sc.nextLine(); // Consommer le retour à la ligne
 
-                App app = new App();
-
-                switch (choice) {
-                    case 1:
-                        app.input(sc);
-                        System.out.println("Result = " + app.add(app.a, app.b));
-                        break;
-                    case 2:
-                        app.input(sc);
-                        System.out.println("Result = " + app.sub(app.a, app.b));
-                        break;
-                    case 3:
-                        app.input(sc);
-                        System.out.println("Result = " + app.mul(app.a, app.b));
-                        break;
-                    case 4:
-                        app.input(sc);
-                        if (app.b == 0) {
-                            System.out.println("Divide by Zero is not allowed.");
-                        } else {
-                            System.out.println("Result = " + app.div(app.a, app.b));
-                        }
-                        break;
-                    case 5:
-                        exit = true;
-                        System.out.println("Exiting...");
-                        break;
-                    default:
-                        System.out.println("Invalid choice! Please select a valid option.");
+                if (choice == 5) {
+                    exit = true;
+                    System.out.println("Exiting...");
+                    break;
                 }
-				
+
+                app.input(sc);
+                app.executeOperation(choice, app.a, app.b);
+
             } catch (NoSuchElementException e) {
                 System.out.println("No input found! Restarting...");
                 sc.nextLine(); // Vider le buffer
