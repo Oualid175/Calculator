@@ -1,5 +1,6 @@
 package Calculator.CalculatorDemo;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -101,6 +102,15 @@ public class App {
         // Mode interactif ou fichier input.txt
         Scanner sc = new Scanner(System.in);
         boolean exit = false;
+        // Vérification si l'entrée provient d'un fichier redirigé
+        try {
+            if (System.in.available() > 0) {
+                System.out.println("Reading from file or redirected input...");
+                // Vous pouvez traiter l'entrée standard ici si un fichier est fourni
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading from input stream: " + e.getMessage());
+        }
 
         do {
             try {
