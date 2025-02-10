@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    registry = "abhishekacharya/calculator_demo"
+    registry = "oualid/calculator_demo"
     registryCredential = 'docker-hub-credentials'
     dockerImage = ''
     dockerImageLatest = ''
@@ -9,12 +9,12 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git 'https://github.com/Abhishek-Acharya/Calculator_Demo'
+        git 'https://github.com/Oualid175/Calculator'
       }
     }
     stage('Build Executable Jar'){
         steps {
-             sh 'mvn clean test package'
+             bat 'mvn clean test package'
         }
     }
     stage('Building image') {
@@ -37,7 +37,7 @@ pipeline {
     }
     stage('Remove Unused docker image') {
       steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
+        bat "docker rmi $registry:$BUILD_NUMBER"
       }
     }
     stage('Execute Rundeck job') {
